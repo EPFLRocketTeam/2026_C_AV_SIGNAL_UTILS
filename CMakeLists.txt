@@ -60,5 +60,12 @@ function(create_test test_name test_file)
     target_include_directories(${test_name} PUBLIC include)
 endfunction()
 
+function(create_example example_name example_file)
+    add_executable(${example_name} ${example_file})
+    target_include_directories(${example_name} PUBLIC include)
+endfunction()
+
 create_test(test_outlier tests/test_outlier.cpp)
 create_test(test_argsort tests/test_argsort.cpp)
+
+create_example(example_outlier examples/outlier/main.cpp)
