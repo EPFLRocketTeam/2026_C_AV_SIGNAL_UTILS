@@ -65,7 +65,11 @@ function(create_example example_name example_file)
     target_include_directories(${example_name} PUBLIC include)
 endfunction()
 
-create_test(test_outlier tests/test_outlier.cpp)
-create_test(test_argsort tests/test_argsort.cpp)
+create_test(test_outlier  tests/test_outlier.cpp)
+create_test(test_argsort  tests/test_argsort.cpp)
+create_test(test_neumaier tests/test_neumaier.cpp)
+
+create_test(test_running_average tests/test_running_average.cpp)
 
 create_example(example_outlier examples/outlier/main.cpp)
+create_example(example_average examples/running_average/main.cpp)
