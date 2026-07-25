@@ -72,3 +72,4 @@ create_test(test_neumaier tests/test_neumaier.cpp)
 create_test(test_running_average tests/test_running_average.cpp)
 
 create_example(example_outlier examples/outlier/main.cpp)
+create_example(example_average examples/running_average/main.cpp)
