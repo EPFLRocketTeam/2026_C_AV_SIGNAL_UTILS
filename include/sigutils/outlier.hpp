@@ -62,7 +62,7 @@ struct OutlierParams {
     }
 };
 
-template<typename FloatType, const int _length, const int _num_valid>
+template<typename FloatType, const int _length, const int _num_valid, const bool reset = true>
 uint16_t outlier (
     OutlierParams<FloatType, _length, _num_valid> &params,
 
@@ -75,7 +75,10 @@ uint16_t outlier (
 
     uint16_t count_valid = 0;
     for (size_t offset = 0; offset < params.length; offset ++) {
-        is_outlier[offset] = true;
+        if (reset) {
+            is_outlier[offset] = true;
+        }
+        
         uint16_t index = params.idx_buffer[offset];
 
         if (params.in_range(values[index])) {
