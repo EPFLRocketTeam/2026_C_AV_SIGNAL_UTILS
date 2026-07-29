@@ -75,16 +75,18 @@ uint16_t outlier (
 
     uint16_t count_valid = 0;
     for (size_t offset = 0; offset < params.length; offset ++) {
-        if (reset) {
-            is_outlier[offset] = true;
-        }
-        
         uint16_t index = params.idx_buffer[offset];
 
-        if (params.in_range(values[index])) {
+        if (reset) {
+            is_outlier[index] = false;
+        }
+
+        if (params.in_range(values[index]) && !is_outlier[index]) {
             params.idx_valid_buffer[count_valid] = index;
             count_valid ++;
         }
+
+        is_outlier[index] = true;
     }
 
     if (count_valid == 0) {
