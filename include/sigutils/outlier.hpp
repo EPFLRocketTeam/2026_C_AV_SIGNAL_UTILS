@@ -34,6 +34,8 @@ public:
         FloatType new_mean = mean;
         mean -= (x - mean) / count;
         M2 -= (x - new_mean) * (x - mean);
+        // rounding in the downdate can leave a tiny negative; a variance is never below 0
+        if (M2 < 0) M2 = 0;
     }
 
     uint16_t size () noexcept {
