@@ -2,6 +2,7 @@
 #pragma once
 
 #include <cmath>
+#include <cstdint>
 
 #include "sigutils/neumaier.hpp"
 
@@ -27,9 +28,16 @@ public:
     void start (FloatType value, TimeType current_time) {
         integrator_ = 0;
         last_time_  = current_time;
-        last_value_ = value;
+        // a dead sensor at start counts as zero so the first step stays finite
+        last_value_ = std::isfinite(value) ? value : static_cast<FloatType>(0);
     }
     void ingest (FloatType value, TimeType current_time) {
+        // a NaN or infinite sample is skipped; the next good sample is
+        // bridged by the trapezoid from the last good one
+        if (!std::isfinite(value)) {
+            return ;
+        }
+
         integrator_ += (value + last_value_) * TimeConversion(current_time - last_time_);
 
         last_time_  = current_time;
