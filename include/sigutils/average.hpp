@@ -1,14 +1,18 @@
 
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include "sigutils/neumaier.hpp"
 
 template<typename FloatType, const int _num_samples>
 struct RunningAverage {
+    static_assert(_num_samples > 0, "RunningAverage needs a window of at least one sample");
 private:
-    FloatType buffer[_num_samples];
+    FloatType buffer[_num_samples] = {};
     size_t offset = 0;
+    // samples seen while the first window fills, so mean() is the partial mean
+    size_t filled = 0;
 
     StableFloatSum<FloatType> sum1;
     StableFloatSum<FloatType> sum2;
@@ -31,6 +35,9 @@ public:
         buffer[offset] = point;
 
         offset ++;
+        if (!has_mean) {
+            filled ++;
+        }
         
         // if reached the end, put sum2 into sum1
         // and mark the system as ready, reset sum1
@@ -43,6 +50,10 @@ public:
         }
     }
     FloatType mean () {
-        return sum1 / num_samples;
+        if (has_mean) {
+            return sum1 / num_samples;
+        }
+        // window not full yet: mean of what has arrived, 0 before the first push
+        return filled == 0 ? FloatType(0) : sum1 / filled;
     }
 };

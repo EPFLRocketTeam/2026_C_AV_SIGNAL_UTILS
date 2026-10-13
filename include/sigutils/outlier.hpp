@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <cmath>
+#include <cstddef>
 #include <cstdint>
 
 #include "sigutils/argsort.hpp"
@@ -32,6 +34,8 @@ public:
         FloatType new_mean = mean;
         mean -= (x - mean) / count;
         M2 -= (x - new_mean) * (x - mean);
+        // rounding in the downdate can leave a tiny negative; a variance is never below 0
+        if (M2 < 0) M2 = 0;
     }
 
     uint16_t size () noexcept {
@@ -58,7 +62,7 @@ struct OutlierParams {
     uint16_t idx_valid_buffer[_length];
 
     inline bool in_range (FloatType val) noexcept {
-        return min <= val && val <= max;
+        return std::isfinite(val) && min <= val && val <= max;
     }
 };
 

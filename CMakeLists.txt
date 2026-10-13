@@ -72,5 +72,11 @@ create_test(test_neumaier tests/test_neumaier.cpp)
 create_test(test_running_average tests/test_running_average.cpp)
 create_test(test_integrator tests/test_integrator.cpp)
 
+create_test(test_outlier_edges         tests/test_outlier_edges.cpp)
+create_test(test_argsort_edges         tests/test_argsort_edges.cpp)
+create_test(test_neumaier_edges        tests/test_neumaier_edges.cpp)
+create_test(test_running_average_edges tests/test_running_average_edges.cpp)
+create_test(test_integrator_edges      tests/test_integrator_edges.cpp)
+
 create_example(example_outlier examples/outlier/main.cpp)
 create_example(example_average examples/running_average/main.cpp)
