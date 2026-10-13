@@ -20,11 +20,11 @@ namespace _ {
         for (size_t offset = 0; offset < length; offset ++) buffer[offset] = offset;
 
         for (uint16_t iGap = 0; iGap < numberGaps; iGap ++) {
-            uint16_t gap = gaps[iGap];
+            size_t gap = gaps[iGap];
 
-            for (uint16_t src = 0; src < gap; src ++) {
-                for (uint16_t idx = src + gap; idx < length; idx += gap) {
-                    uint16_t jdx = idx;
+            for (size_t src = 0; src < gap; src ++) {
+                for (size_t idx = src + gap; idx < length; idx += gap) {
+                    size_t jdx = idx;
                     
                     uint16_t val = buffer[idx];
                     while (jdx > src && greater(data[buffer[jdx - gap]], data[val])) {
