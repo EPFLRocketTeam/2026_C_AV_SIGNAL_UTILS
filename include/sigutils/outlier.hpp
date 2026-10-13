@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <cmath>
+#include <cstddef>
 #include <cstdint>
 
 #include "sigutils/argsort.hpp"
@@ -58,7 +60,7 @@ struct OutlierParams {
     uint16_t idx_valid_buffer[_length];
 
     inline bool in_range (FloatType val) noexcept {
-        return min <= val && val <= max;
+        return std::isfinite(val) && min <= val && val <= max;
     }
 };
 
