@@ -14,7 +14,9 @@ public:
 
     void add(FloatType val) {
         FloatType t = sum + val;
-        if (std::abs(sum) >= std::abs(val)) {
+        if (!std::isfinite(t)) {
+            // inf or NaN: compensating would turn inf - inf into NaN
+        } else if (std::abs(sum) >= std::abs(val)) {
             c += (sum - t) + val;
         } else {
             c += (val - t) + sum;
